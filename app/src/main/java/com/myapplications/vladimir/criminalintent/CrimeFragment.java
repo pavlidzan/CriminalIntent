@@ -22,17 +22,27 @@ import java.util.UUID;
  */
 
 public class CrimeFragment extends Fragment {
+    private static final String ARG_CRIME_ID = "crime_id";
     private Crime mCrime;
     private EditText mTitleField;
     private CheckBox mCheckBox;
     private Button mDateButton;
+
+    public static CrimeFragment newInstance(UUID crimeId){
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_CRIME_ID,crimeId);
+        CrimeFragment crimeFragment = new CrimeFragment();
+        crimeFragment.setArguments(args);
+        return crimeFragment;
+    }
 
 
     @Override
     public void onCreate(Bundle savedInstanceSate){
         super.onCreate(savedInstanceSate);
 //        mCrime= new Crime();
-        UUID crimeId = (UUID)getActivity().getIntent().getSerializableExtra(CrimeActivity.EXTRA_CRIME_ID);
+//        UUID crimeId = (UUID)getActivity().getIntent().getSerializableExtra(CrimeActivity.EXTRA_CRIME_ID);
+        UUID crimeId = (UUID) getArguments().getSerializable(ARG_CRIME_ID);
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
     }
 
