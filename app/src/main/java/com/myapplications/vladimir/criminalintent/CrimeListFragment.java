@@ -1,7 +1,10 @@
 package com.myapplications.vladimir.criminalintent;
 
 import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,9 +22,11 @@ import android.widget.Toast;
  */
 
 public class CrimeListFragment extends Fragment {
-
+    private static final int REQUEST_CRIME = 1;
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
+    private UUID mCrimeId;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -35,8 +40,9 @@ public class CrimeListFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
+        if (mCrimeId!=null){
         updateUI();
-    }
+    }}
 
     public void updateUI(){
 
@@ -46,7 +52,8 @@ public class CrimeListFragment extends Fragment {
             mAdapter = new CrimeAdapter(crimes);
             mCrimeRecyclerView.setAdapter(mAdapter);
         }else {
-            mAdapter.notifyDataSetChanged();
+//            mAdapter.notifyDataSetChanged();
+            mAdapter.notifyItemChanged(Integer.getInteger(mCrimeId.toString()));
         }
     }
 
@@ -77,8 +84,24 @@ public class CrimeListFragment extends Fragment {
 //            mCrimeRecyclerView.getAdapter().notifyItemMoved(0,5);
 //            Intent intent = new Intent(getActivity(), CrimeActivity.class);
             Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId());
-            startActivity(intent);
+//            startActivity(intent);
+            startActivityForResult(intent, REQUEST_CRIME);
         }
+
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+//        if (resultCode != Activity.RESULT_OK){
+//            return;
+//        }
+        if (requestCode==REQUEST_CRIME){
+                if(data==null){
+                    return;
+                }
+
+            mCrimeId = CrimeFragment.whatIsCrimeId(data);
+            }
+
 
     }
 

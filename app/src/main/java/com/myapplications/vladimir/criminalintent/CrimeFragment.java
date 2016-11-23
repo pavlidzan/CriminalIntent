@@ -1,5 +1,7 @@
 package com.myapplications.vladimir.criminalintent;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -27,6 +29,12 @@ public class CrimeFragment extends Fragment {
     private EditText mTitleField;
     private CheckBox mCheckBox;
     private Button mDateButton;
+
+    @Override
+    public void onDestroyView() {
+        this.returnResult();
+        super.onDestroyView();
+    }
 
     public static CrimeFragment newInstance(UUID crimeId){
         Bundle args = new Bundle();
@@ -81,6 +89,16 @@ public class CrimeFragment extends Fragment {
                 mCrime.setSolved(isChecked);
             }
         });
+
         return v;
     }
+    private void returnResult(){
+        Intent data =new Intent();
+        data.putExtra(ARG_CRIME_ID, mCrime.getId());
+        getActivity().setResult(Activity.RESULT_OK,data);
+    }
+    public static UUID whatIsCrimeId(Intent result){
+        return (UUID) result.getSerializableExtra(ARG_CRIME_ID);
+    }
+
 }
