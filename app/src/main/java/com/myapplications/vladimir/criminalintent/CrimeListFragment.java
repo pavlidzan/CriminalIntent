@@ -1,5 +1,6 @@
 package com.myapplications.vladimir.criminalintent;
 
+import java.lang.reflect.Array;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -53,7 +54,14 @@ public class CrimeListFragment extends Fragment {
             mCrimeRecyclerView.setAdapter(mAdapter);
         }else {
 //            mAdapter.notifyDataSetChanged();
-            mAdapter.notifyItemChanged(Integer.getInteger(mCrimeId.toString()));
+            Crime crime = crimeLab.getCrime(mCrimeId);
+             for (int i=1; i<=crimes.size();i++){
+                 if (crime.equals(crimes.get(i))){
+                     mAdapter.notifyItemChanged(i);
+                     break;
+                 }
+             }
+
         }
     }
 

@@ -30,11 +30,7 @@ public class CrimeFragment extends Fragment {
     private CheckBox mCheckBox;
     private Button mDateButton;
 
-    @Override
-    public void onDestroyView() {
-        this.returnResult();
-        super.onDestroyView();
-    }
+
 
     public static CrimeFragment newInstance(UUID crimeId){
         Bundle args = new Bundle();
@@ -52,6 +48,7 @@ public class CrimeFragment extends Fragment {
 //        UUID crimeId = (UUID)getActivity().getIntent().getSerializableExtra(CrimeActivity.EXTRA_CRIME_ID);
         UUID crimeId = (UUID) getArguments().getSerializable(ARG_CRIME_ID);
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
+        returnResult();
     }
 
     @Override
@@ -92,6 +89,7 @@ public class CrimeFragment extends Fragment {
 
         return v;
     }
+
     private void returnResult(){
         Intent data =new Intent();
         data.putExtra(ARG_CRIME_ID, mCrime.getId());
